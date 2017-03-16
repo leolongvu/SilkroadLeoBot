@@ -1,0 +1,842 @@
+﻿<Window     
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:MetroWindows="clr-namespace:LeoBot" x:Class="LeoBot.MainWindow"
+        AllowsTransparency="True" Title="LeoBot" Height="458.4" Width="1200" Style="{DynamicResource MetroWindowStyle}" 
+        ResizeMode="NoResize" Topmost="False" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style x:Key="MetroWindowStyle" TargetType="{x:Type Window}">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+            <Setter Property="WindowStyle" Value="None" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Window}">
+                        <Grid>
+                            <Border x:Name="MainBorder" BorderThickness="0" Background="White" >
+                                <DockPanel LastChildFill="True">
+                                    <Border x:Name="PART_TITLEBAR" 
+        								Margin="0,0,0,0" Height="40" Width="1190" DockPanel.Dock="Top"
+        								Background="Transparent" MouseLeftButtonDown="PART_TITLEBAR_MouseLeftButtonDown">
+                                        <DockPanel LastChildFill="False">
+                                            <TextBlock Margin="10,0,0,4" VerticalAlignment="Center"
+        										Foreground="#FFAAAAAA" TextWrapping="NoWrap" 
+        										Text="{TemplateBinding Title}" FontSize="18" />
+                                            <Button x:Name="PART_CLOSE" DockPanel.Dock="Right" 
+        										VerticalAlignment="Center" Margin="5"
+        										Height="20" Width="20" 
+        										Style="{DynamicResource MetroWindowButtonStyle}"
+        										Click="PART_CLOSE_Click">
+                                                <Path Data="F1M54.0573,47.8776L38.1771,31.9974 54.0547,16.1198C55.7604,14.4141 55.7604,11.6511 54.0573,9.94531 52.3516,8.23962 49.5859,8.23962 47.8802,9.94531L32.0026,25.8229 16.1224,9.94531C14.4167,8.23962 11.6511,8.23962 9.94794,9.94531 8.24219,11.6511 8.24219,14.4141 9.94794,16.1198L25.8255,32 9.94794,47.8776C8.24219,49.5834 8.24219,52.3477 9.94794,54.0534 11.6511,55.7572 14.4167,55.7585 16.1224,54.0534L32.0026,38.1745 47.8802,54.0534C49.5859,55.7585 52.3516,55.7572 54.0573,54.0534 55.7604,52.3477 55.763,49.5834 54.0573,47.8776z" 
+        											Stretch="Uniform" Fill="#FFAAAAAA" Width="10" Margin="0,0,0,0" />
+                                            </Button>
+                                            <Button x:Name="PART_MINIMIZE" 
+        										HorizontalAlignment="Center" 
+        										VerticalAlignment="Center" Margin="5"
+        										DockPanel.Dock="Right"
+        										Height="20" Width="20" Style="{DynamicResource MetroWindowButtonStyle}"
+        										Click="PART_MINIMIZE_Click" VerticalContentAlignment="Bottom">
+                                                <Path Data="M0,20L53.333,20 53.333,8.888 0,8.888z" 
+        											Stretch="Uniform" Fill="#FFAAAAAA" Width="10" Margin="0,0,0,5"/>
+                                            </Button>
+                                        </DockPanel>
+                                    </Border>
+                                    <AdornerDecorator DockPanel.Dock="Bottom">
+                                        <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}"/>
+                                    </AdornerDecorator>
+                                </DockPanel>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="ResizeMode" Value="CanResizeWithGrip">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Window}">
+                                <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                                    <Grid>
+                                        <AdornerDecorator>
+                                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}"/>
+                                        </AdornerDecorator>
+                                        <ResizeGrip x:Name="WindowResizeGrip" HorizontalAlignment="Right" IsTabStop="False" Visibility="Collapsed" VerticalAlignment="Bottom"/>
+                                    </Grid>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="ResizeMode" Value="CanResizeWithGrip"/>
+                                            <Condition Property="WindowState" Value="Normal"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="Visibility" TargetName="WindowResizeGrip" Value="Visible"/>
+                                    </MultiTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="MetroWindowButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle">
+                <Setter.Value>
+                    <Style>
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Rectangle Margin="4" SnapsToDevicePixels="True" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="BorderBrush" Value="#FF707070"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="True">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#FFBEE6FD"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FF3C7FB1"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#FFC4E5F6"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FF2C628B"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" TargetName="border" Value="#FFF4F4F4"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#FF838383"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid Height="415">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="265*"/>
+            <ColumnDefinition Width="336*"/>
+            <ColumnDefinition Width="334*"/>
+            <ColumnDefinition Width="265*"/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="Character Info" HorizontalAlignment="Left" Height="408" Margin="10,0,0,0" VerticalAlignment="Top" Width="250" FontSize="14" FontWeight="Bold">
+            <Grid HorizontalAlignment="Left" Height="410" Margin="0,3,-3.2,-30.6" VerticalAlignment="Top" Width="240">
+                <Label Content="Account ID:" HorizontalAlignment="Left" Margin="4,2,0,378" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <TextBox x:Name="accID" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="123,7,0,383" TextWrapping="NoWrap" VerticalAlignment="Center" Width="107" FontSize="13" FontWeight="Normal" IsReadOnly="False"/>
+                <Label Content="Character ID:" HorizontalAlignment="Left" Margin="4,27,0,353" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <TextBox x:Name="charID" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="123,32,0,358" TextWrapping="NoWrap" VerticalAlignment="Center" Width="107" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+                <Label Content="Character Name:" HorizontalAlignment="Left" Margin="4,52,0,328" VerticalAlignment="Center" FontSize="13" Height="30" FontWeight="Normal" Width="114"/>
+                <TextBox x:Name="charname" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="123,57,0,333" TextWrapping="NoWrap" VerticalAlignment="Center" Width="107" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+                <Label Content="Berserk:" HorizontalAlignment="Left" Margin="4,75,0,301" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <TextBox x:Name="berserklevel" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="67,80,0,306" TextWrapping="NoWrap" VerticalAlignment="Center" Width="27" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+                <ProgressBar x:Name="HP_Bar" HorizontalAlignment="Left" Height="20" Margin="123,110,0,0" VerticalAlignment="Top" Width="107" Foreground="#FFD31111"/>
+                <Label Content="Current HP:" HorizontalAlignment="Left" Margin="4,105,0,274" VerticalAlignment="Center" FontSize="13" Height="30" FontWeight="Normal"/>
+                <ProgressBar x:Name="MP_Bar" HorizontalAlignment="Left" Height="20" Margin="123,135,0,0" VerticalAlignment="Top" Width="107" Foreground="#FF0D33D0"/>
+                <Label Content="Current MP:" HorizontalAlignment="Left" Margin="4,130,0,249" VerticalAlignment="Center" FontSize="13" Height="30" FontWeight="Normal"/>
+                <Label Content="Status:" HorizontalAlignment="Left" Margin="100,75,0,301" VerticalAlignment="Center" Height="30" FontSize="13" FontWeight="Normal"/>
+                <TextBox x:Name="status" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="156,80,0,306" TextWrapping="NoWrap" VerticalAlignment="Center" Width="74" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+                <Label Content="Grab Pet ID:" HorizontalAlignment="Left" Margin="4,160,0,215" VerticalAlignment="Center" Height="30" FontSize="13" FontWeight="Normal"/>
+                <TextBox x:Name="grabid" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="123,165,0,220" TextWrapping="NoWrap" VerticalAlignment="Center" Width="107" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+                <Label Content="Attack Pet Name:" HorizontalAlignment="Left" Margin="4,237,0,143" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <TextBox x:Name="grabname" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="123,192,0,198" TextWrapping="NoWrap" VerticalAlignment="Center" Width="107" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+                <Label Content="Attack Pet ID:" HorizontalAlignment="Left" Margin="4,212,0,168" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <TextBox x:Name="attackid" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="123,217,0,173" TextWrapping="NoWrap" VerticalAlignment="Center" Width="107" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+                <Label Content="Grab Pet Name:" HorizontalAlignment="Left" Margin="4,187,0,193" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <TextBox x:Name="attackname" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="123,242,0,148" TextWrapping="NoWrap" VerticalAlignment="Center" Width="107" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+                <ProgressBar x:Name="PetHP_Bar" HorizontalAlignment="Left" Height="20" Margin="123,268,0,0" VerticalAlignment="Top" Width="107" Foreground="#FFEB1616"/>
+                <Label Content="Attack Pet HP:" HorizontalAlignment="Left" Margin="4,264,0,116" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <ProgressBar x:Name="PetHGP_Bar" HorizontalAlignment="Left" Height="20" Margin="123,293,0,0" VerticalAlignment="Top" Width="107" Foreground="#FFF8CD03"/>
+                <Label Content="Horse HP:" HorizontalAlignment="Left" Margin="4,351,0,29" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <ProgressBar x:Name="HorseHP_Bar" HorizontalAlignment="Left" Height="20" Margin="123,355,0,0" VerticalAlignment="Top" Width="107" Foreground="#FFEB1616"/>
+                <Label Content="Attack Pet HGP:" HorizontalAlignment="Left" Margin="4,289,0,91" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <Label Content="Horse ID:" HorizontalAlignment="Left" Margin="4,326,0,54" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <TextBox x:Name="horseid" HorizontalAlignment="Left" MaxLines="1" Height="20" Margin="123,330,0,60" TextWrapping="NoWrap" VerticalAlignment="Center" Width="107" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Statistic" HorizontalAlignment="Left" Height="347" Margin="5.8,0,0,0" VerticalAlignment="Top" Width="250" Grid.Column="3" FontSize="14" FontWeight="Bold">
+            <Grid HorizontalAlignment="Left" Height="410" Margin="0,3,-3.2,-91.4" VerticalAlignment="Top" Width="240">
+                <Label Content="Gold Amount:" HorizontalAlignment="Left" Margin="4,3,0,377" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <TextBox x:Name="gold" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="123,5,0,381" TextWrapping="NoWrap" VerticalAlignment="Center" Width="107" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+                <Label Content="Gold Difference:" HorizontalAlignment="Left" Margin="4,27,0,353" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <TextBox x:Name="gold_difference" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="123,30,0,357" TextWrapping="NoWrap" VerticalAlignment="Center" Width="107" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+                <Label Content="Level:" HorizontalAlignment="Left" Margin="4,54,0,326" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <TextBox x:Name="level" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="54,58,0,332" TextWrapping="NoWrap" VerticalAlignment="Center" Width="40" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+                <Label Content="Current EXP:" HorizontalAlignment="Left" Margin="4,83,0,297" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <Label Content="Current SP:" HorizontalAlignment="Left" Margin="4,108,0,272" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <Label Content="EXP:" HorizontalAlignment="Left" Margin="138,54,0,326" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <TextBox x:Name="exppercent" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="180,58,0,332" TextWrapping="NoWrap" VerticalAlignment="Center" Width="50" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+                <Label Content="SP Gain:" HorizontalAlignment="Left" Margin="4,133,0,247" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <TextBox x:Name="spgainedtotal" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="138,137,0,253" TextWrapping="NoWrap" VerticalAlignment="Center" Width="92" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+                <Label Content="Mobs Killed:" HorizontalAlignment="Left" Margin="4,208,0,172" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <TextBox x:Name="spgainedpermin" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="138,162,0,228" TextWrapping="NoWrap" VerticalAlignment="Center" Width="92" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+                <Label Content="SP Gain/ Hour:" HorizontalAlignment="Left" Margin="4,183,0,197" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <TextBox x:Name="spgainedperhour" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="138,187,0,203" TextWrapping="NoWrap" VerticalAlignment="Center" Width="92" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+                <Label Content="SP Gain/ Minute:" HorizontalAlignment="Left" Margin="4,157,0,223" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <TextBox x:Name="mobkilled" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="138,212,0,178" TextWrapping="NoWrap" VerticalAlignment="Center" Width="92" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+                <Label Content="Died:" HorizontalAlignment="Left" Margin="4,233,0,147" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <Label Content="Returning:" HorizontalAlignment="Left" Margin="4,258,0,122" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <Label Content="Total time:" HorizontalAlignment="Left" Margin="4,287,0,93" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <TextBox x:Name="currentexp" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="123,86,0,304" TextWrapping="NoWrap" VerticalAlignment="Center" Width="107" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+                <TextBox x:Name="currentsp" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="123,112,0,278" TextWrapping="NoWrap" VerticalAlignment="Center" Width="107" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+                <Label x:Name="timecount" Content="0 : 0 : 0" HorizontalAlignment="Left" Margin="134,287,0,93" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <TextBox x:Name="diedcount" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="138,237,0,153" TextWrapping="NoWrap" VerticalAlignment="Center" Width="92" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+                <TextBox x:Name="returncount" MaxLines="1" HorizontalAlignment="Left" Height="20" Margin="138,262,0,128" TextWrapping="NoWrap" VerticalAlignment="Center" Width="92" FontSize="13" FontWeight="Normal" IsReadOnly="True"/>
+            </Grid>
+        </GroupBox>
+        <TabControl Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="367" VerticalAlignment="Top" Width="670" Grid.Column="1" Margin="0.2,1,0,0">
+            <TabItem Header="Auto Login" FontSize="13">
+                <Grid Background="White">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="279*"/>
+                        <ColumnDefinition Width="386*"/>
+                    </Grid.ColumnDefinitions>
+                    <GroupBox Grid.Column="1" Header="Log" HorizontalAlignment="Left" Height="337" Margin="108.8,0,-0.2,-0.2" VerticalAlignment="Top" Width="277" FontWeight="Bold" FontSize="12">
+                        <TextBox x:Name="logs" IsReadOnly="True" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="312" Margin="0,2,-3,-2.8" TextWrapping="Wrap" VerticalAlignment="Top" FontWeight="Normal" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}" FontSize="11"/>
+                    </GroupBox>
+                    <GroupBox Grid.ColumnSpan="2" Header="Login Credentials" HorizontalAlignment="Left" Height="337" Margin="0,0,0,-0.2" VerticalAlignment="Top" Width="388" FontWeight="Bold" FontSize="12">
+                        <Grid Background="White">
+                            <Label Content="Username:" HorizontalAlignment="Left" Margin="14,9,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <TextBox x:Name="username" HorizontalAlignment="Left" Height="20" Margin="85,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="90" FontWeight="Normal"/>
+                            <Label Content="Password:" HorizontalAlignment="Left" Margin="14,34,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <PasswordBox x:Name="password" HorizontalAlignment="Left" Height="20" Margin="85,38,0,0" VerticalAlignment="Top" Width="90" FontWeight="Normal"/>
+                            <GroupBox Header="Captcha" HorizontalAlignment="Left" Height="106" Margin="182,1,0,0" VerticalAlignment="Top" Width="191" FontStyle="Italic">
+                                <Grid Background="White">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="13*"/>
+                                        <ColumnDefinition Width="152*"/>
+                                        <ColumnDefinition Width="13*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image x:Name="captcha" HorizontalAlignment="Left" Height="45" Margin="0.2,10,0,0" VerticalAlignment="Top" Width="152" Grid.Column="1" Grid.ColumnSpan="2"/>
+                                    <TextBox x:Name="capans" HorizontalAlignment="Left" Height="20" Margin="10,60,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="90" FontWeight="Normal" Grid.ColumnSpan="2" FontStyle="Normal"/>
+                                </Grid>
+                            </GroupBox>
+                            <Button x:Name="sendcapans" Content="Send" Click="CaptchaAns" HorizontalAlignment="Left" Margin="296,78,0,0" VerticalAlignment="Top" Width="62" FontWeight="Normal" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Height="20"/>
+                            <Label Content="Servers:" HorizontalAlignment="Left" Margin="14,112,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <ComboBox x:Name="serverlist" HorizontalAlignment="Left" Height="22" Margin="123,115,0,0" VerticalAlignment="Top" Width="120" FontWeight="Normal"/>
+                            <Label Content="Character's name:" HorizontalAlignment="Left" Margin="14,138,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <CheckBox x:Name="autologin" Content="Activate auto login" Click="AutoLoginCheck" HorizontalAlignment="Left" Margin="14,73,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <TextBox x:Name="charnameselect" HorizontalAlignment="Left" Height="20" Margin="123,142,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontWeight="Normal"/>
+                            <CheckBox x:Name="characterselect" Click="AutoSelectCheck" Content="Auto select character" HorizontalAlignment="Left" Margin="14,180,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <ListBox x:Name="charlist" HorizontalAlignment="Left" Height="106" Margin="182,180,0,0" VerticalAlignment="Top" Width="186" FontWeight="Normal"/>
+                            <Label Content="List of Characters" HorizontalAlignment="Left" Margin="266,154,0,0" VerticalAlignment="Top" FontWeight="Normal" FontStyle="Italic"/>
+                            <Button x:Name="selectcharbutton" Content="Select a character" Click="SelectCharacter" Height="22" HorizontalAlignment="Left" Margin="182,291,0,0" VerticalAlignment="Top" Width="186" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontWeight="Normal"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Training" FontSize="13">
+                <Grid Background="White">
+                    <GroupBox Header="Training Area" HorizontalAlignment="Left" Height="203" VerticalAlignment="Top" Width="323" FontWeight="Bold" FontSize="12">
+                        <TabControl FontWeight="Normal" Margin="0,6,0.2,1.2">
+                            <TabItem Header="Walk around" FontSize="12" FontStyle="Italic">
+                                <Grid Background="White" Margin="0,-2,-1.2,0" Height="140" VerticalAlignment="Top" HorizontalAlignment="Left" Width="306">
+                                    <Label Content="Center X:" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="17,10,0,0" FontWeight="Normal" FontSize="12" FontStyle="Normal"/>
+                                    <Label Content="Center Y:" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="153,10,0,0" FontWeight="Normal" FontSize="12" FontStyle="Normal"/>
+                                    <TextBox x:Name="x_setbox" HorizontalAlignment="Left" Height="20" Margin="80,14,0,106" TextWrapping="NoWrap" VerticalAlignment="Center" Width="60" FontSize="12" FontWeight="Normal" IsReadOnly="True" MaxLines="1" FontStyle="Normal"/>
+                                    <TextBox x:Name="y_setbox" HorizontalAlignment="Left" Height="20" Margin="216,14,0,106" TextWrapping="NoWrap" VerticalAlignment="Center" Width="60" FontSize="12" FontWeight="Normal" IsReadOnly="True" MaxLines="1" FontStyle="Normal"/>
+                                    <Label Content="Training range:" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,41,0,0" FontWeight="Normal" FontSize="12" FontStyle="Normal"/>
+                                    <TextBox MaxLines="1" x:Name="trainingrangebox" Text="{Binding Value, ElementName=rangebar, StringFormat=\{0:0\}, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" HorizontalAlignment="Left" Height="20" Margin="105,46,0,74" TextWrapping="NoWrap" VerticalAlignment="Center" Width="30" FontSize="12" FontWeight="Normal" IsReadOnly="False" FontStyle="Normal"/>
+                                    <Slider x:Name="rangebar" HorizontalAlignment="Left" Height="20" Margin="10,76,0,0" VerticalAlignment="Top" Width="137" Maximum="200" SmallChange="10" Value="100" Interval="100"/>
+                                    <Button Content="Set current position as training center" Click="SetCoordinate" HorizontalAlignment="Left" Height="30" Margin="10,106,0,0" VerticalAlignment="Top" Width="284" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontWeight="Normal" FontSize="12" FontStyle="Normal"/>
+                                    <Label Content="Running range:" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="152,41,0,0" FontWeight="Normal" FontSize="12" FontStyle="Normal"/>
+                                    <TextBox MaxLines="1" x:Name="runningrangebox" Text="{Binding Value, ElementName=rangebar1, StringFormat=\{0:0\}, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" HorizontalAlignment="Left" Height="20" Margin="248,46,0,74" TextWrapping="NoWrap" VerticalAlignment="Center" Width="30" FontSize="12" FontWeight="Normal" IsReadOnly="False" FontStyle="Normal"/>
+                                    <Slider x:Name="rangebar1" HorizontalAlignment="Left" Height="20" Margin="154,76,0,0" VerticalAlignment="Top" Width="137" Maximum="200" SmallChange="10" Value="50" Interval="100"/>
+                                </Grid>
+                            </TabItem>
+                            <TabItem Header="Walk follow a path" FontSize="12" FontStyle="Italic">
+                                <Grid Background="White">
+                                    <ListBox x:Name="trainbox" HorizontalAlignment="Left" Height="111" VerticalAlignment="Top" Width="197" Margin="5,5,0,0" FontStyle="Normal"/>
+                                    <Button x:Name="record" Click="Recordtrainrecord" Content="Record" HorizontalAlignment="Left" Height="19" Margin="212,5,0,0" VerticalAlignment="Top" Width="88" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontStyle="Normal"/>
+                                    <Button x:Name="stop" Content="Stop" Click="Stoptrainrecord" HorizontalAlignment="Left" Height="19" Margin="212,29,0,0" VerticalAlignment="Top" Width="88" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontStyle="Normal"/>
+                                    <Button x:Name="save" Content="Save" Click="Savetrainrecord" HorizontalAlignment="Left" Height="20" Margin="212,121,0,0" VerticalAlignment="Top" Width="88" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" RenderTransformOrigin="0.516,-0.34" FontStyle="Normal"/>
+                                    <Button x:Name="clear" Content="Clear" Click="Cleartrainrecord" HorizontalAlignment="Left" Height="19" Margin="212,53,0,0" VerticalAlignment="Top" Width="88" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontStyle="Normal"/>
+                                    <TextBox x:Name="trainrecordpath" IsReadOnly="True" HorizontalAlignment="Left" Height="20" Margin="5,121,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="197" FontStyle="Normal"/>
+                                    <Button x:Name="load" Content="Load" Click="Loadtrainrecord" HorizontalAlignment="Left" Height="20" Margin="212,96,0,0" VerticalAlignment="Top" Width="88" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" RenderTransformOrigin="0.516,-0.34" FontStyle="Normal"/>
+
+                                </Grid>
+                            </TabItem>
+                        </TabControl>
+                    </GroupBox>
+                    <GroupBox Header="Setting" HorizontalAlignment="Left" Height="134" Margin="0,203,0,-0.2" VerticalAlignment="Top" Width="323" FontWeight="Bold" FontSize="12">
+                        <Grid Background="White">
+                            <RadioButton x:Name="walkcenter" Content="Walk to center" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="12"/>
+                            <RadioButton x:Name="walkaround" Content="Walk around" HorizontalAlignment="Left" Margin="116,10,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="12"/>
+                            <RadioButton x:Name="walkpath" Content="Walk by path" HorizontalAlignment="Left" Margin="212,10,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="12" RenderTransformOrigin="0.575,0.533"/>
+                            <CheckBox x:Name="norange" Content="Attack monster(s) out of range" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" FontSize="12" FontWeight="Normal"/>
+                            <CheckBox x:Name="petattack" Content="Attack with pet" HorizontalAlignment="Left" Margin="10,65,0,0" VerticalAlignment="Top" FontSize="12" FontWeight="Normal"/>
+                            <CheckBox x:Name="protectpet" Content="Protect attack pet" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top" FontSize="12" FontWeight="Normal"/>
+                        </Grid>
+                    </GroupBox>
+                    <Grid HorizontalAlignment="Left" Height="134" Margin="0,203,0,-0.2" VerticalAlignment="Top" Width="323"/>
+                    <GroupBox Header="Monster Specification" HorizontalAlignment="Left" Height="173" Margin="323,-1,0,0" VerticalAlignment="Top" Width="341" FontSize="12" FontWeight="Bold">
+                        <TextBox x:Name="advancemobsearch" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="332" Margin="-1,5,-3,0" FontSize="12" FontWeight="Normal"/>
+                    </GroupBox>
+                    <GroupBox Header="Berserk" HorizontalAlignment="Left" Height="165" Margin="323,172,0,-0.2" VerticalAlignment="Top" Width="170" FontSize="12" FontWeight="Bold"/>
+                    <ListBox x:Name="berserk" HorizontalAlignment="Left" Height="113" Margin="328,194,0,0" VerticalAlignment="Top" Width="160" FontSize="12"/>
+                    <Button Content="Yes" Click="berserkyes" HorizontalAlignment="Left" Height="23" Margin="328,309,0,0" VerticalAlignment="Top" Width="66" FontSize="12" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                    <Button Content="No" Click="berserkno" HorizontalAlignment="Left" Height="23" Margin="422,309,0,0" VerticalAlignment="Top" Width="66" FontSize="12" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                    <GroupBox Header="Monster Priority" HorizontalAlignment="Left" Height="165" Margin="493,172,-0.2,-0.2" VerticalAlignment="Top" Width="172" FontSize="12" FontWeight="Bold"/>
+                    <ListBox x:Name="priority" HorizontalAlignment="Left" Height="113" Margin="498,194,0,0" VerticalAlignment="Top" Width="162" FontSize="12"/>
+                    <Button Content="+" Click="priorityup" HorizontalAlignment="Left" Height="23" Margin="498,309,0,0" VerticalAlignment="Top" Width="66" FontSize="12" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                    <Button Content="-" Click="prioritydown" HorizontalAlignment="Left" Height="23" Margin="594,309,0,0" VerticalAlignment="Top" Width="66" FontSize="12" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                    <Button Content="Search" Click="advancesearchclick" HorizontalAlignment="Left" Height="20" Margin="328,43,0,0" VerticalAlignment="Top" Width="80" FontSize="12" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                    <ListBox x:Name="advancemobname" HorizontalAlignment="Left" Height="100" Margin="328,67,0,0" VerticalAlignment="Top" Width="160" RenderTransformOrigin="0.641,0.579" FontSize="12"/>
+                    <ListBox x:Name="advancemob" HorizontalAlignment="Left" Height="99" Margin="493,45,0,0" VerticalAlignment="Top" Width="167" RenderTransformOrigin="0.641,0.579" FontSize="12"/>
+                    <Button Content="Add" Click="advancemobadd" HorizontalAlignment="Left" Height="20" Margin="493,147,0,0" VerticalAlignment="Top" Width="80" FontSize="12" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                    <Button Content="Remove" Click="advancemobremove" HorizontalAlignment="Left" Height="20" Margin="580,147,0,0" VerticalAlignment="Top" Width="80" FontSize="12" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Skills" Height="22.4" Width="55.2" FontSize="13">
+                <GroupBox Header="Skills Setting" HorizontalAlignment="Left" Height="337" Margin="0,0,-0.2,-0.2" VerticalAlignment="Top" Width="665" FontWeight="Bold" FontSize="12">
+                    <Grid Background="White">
+                        <TabControl HorizontalAlignment="Left" Height="330" Margin="321,-16,-3,-2.8" VerticalAlignment="Top" Width="334">
+                            <TabItem Header="General Mobs" FontWeight="Normal" FontStyle="Italic" FontSize="12">
+                                <Grid Background="#FFE5E5E5">
+                                    <ListBox x:Name="generalimbue" HorizontalAlignment="Left" Height="24.5" PreviewMouseRightButtonDown="DeleteImbue" Margin="69,27,0,0" VerticalAlignment="Top" Width="250" FontStyle="Italic"/>
+                                    <ListBox x:Name="generalattack" HorizontalAlignment="Left" Height="80" PreviewMouseRightButtonDown="DeleteSkill" Margin="69,80,0,0" VerticalAlignment="Top" Width="250" FontStyle="Italic"/>
+                                    <ListBox x:Name="buff" HorizontalAlignment="Left" Height="100" PreviewMouseRightButtonDown="DeleteBuff" Margin="69,190,0,0" VerticalAlignment="Top" Width="250" FontStyle="Italic"/>
+                                    <Label Content="Imbue" HorizontalAlignment="Left" Height="25" Margin="69,2,0,0" VerticalAlignment="Top" Width="55" FontStyle="Italic"/>
+                                    <Label Content="Attack Skills" HorizontalAlignment="Left" Height="25" Margin="69,55,0,0" VerticalAlignment="Top" Width="78" FontStyle="Italic"/>
+                                    <Label Content="Buff Skills" HorizontalAlignment="Left" Height="25" Margin="69,165,0,0" VerticalAlignment="Top" Width="78" FontStyle="Italic"/>
+                                    <Button Content="Add" Click="AddImbue" HorizontalAlignment="Left" Height="21" Margin="10,29.5,0,0" VerticalAlignment="Top" Width="50"/>
+                                    <Button Content="Add" Click="AddSkill" HorizontalAlignment="Left" Height="21" Margin="10,84,0,0" VerticalAlignment="Top" Width="50"/>
+                                    <Button Content="Up" HorizontalAlignment="Left" Click="SkillUp" Height="21" Margin="10,110,0,0" VerticalAlignment="Top" Width="50"/>
+                                    <Button Content="Down" HorizontalAlignment="Left" Click="SkillDown" Height="21" Margin="10,137,0,0" VerticalAlignment="Top" Width="50"/>
+                                    <Button Content="Add" Click="AddBuff" HorizontalAlignment="Left" Height="21" Margin="10,194,0,0" VerticalAlignment="Top" Width="50"/>
+                                    <Button Content="Up" HorizontalAlignment="Left" Click="BuffUp" Height="21" Margin="10,220,0,0" VerticalAlignment="Top" Width="50"/>
+                                    <Button Content="Down" HorizontalAlignment="Left" Click="BuffDown" Height="21" Margin="10,247,0,0" VerticalAlignment="Top" Width="50"/>
+                                    <Button Content="Re" HorizontalAlignment="Left" Click="Refresh" Height="21" Margin="10,275,0,0" VerticalAlignment="Top" Width="50"/>
+                                </Grid>
+                            </TabItem>
+                            <TabItem Header="Party Mobs" FontWeight="Normal" FontStyle="Italic" FontSize="12">
+                                <Grid Background="#FFE5E5E5">
+                                    <ListBox x:Name="partyimbue" PreviewMouseRightButtonDown="DeletePartyImbue" HorizontalAlignment="Left" Height="24.5" Margin="69,27,0,0" VerticalAlignment="Top" Width="250" FontStyle="Italic"/>
+                                    <ListBox x:Name="partyattack" PreviewMouseRightButtonDown="DeletePartySkill" HorizontalAlignment="Left" Height="80" Margin="69,80,0,0" VerticalAlignment="Top" Width="250" FontStyle="Italic"/>
+                                    <Label Content="Imbue" HorizontalAlignment="Left" Height="25" Margin="69,2,0,0" VerticalAlignment="Top" Width="55"/>
+                                    <Label Content="Attack Skills" HorizontalAlignment="Left" Height="25" Margin="69,55,0,0" VerticalAlignment="Top" Width="78"/>
+                                    <Button Content="Add" Click="AddPartyImbue" HorizontalAlignment="Left" Height="21" Margin="10,29.5,0,0" VerticalAlignment="Top" Width="50"/>
+                                    <Button Content="Add" Click="AddPartySkill" HorizontalAlignment="Left" Height="21" Margin="10,84,0,0" VerticalAlignment="Top" Width="50"/>
+                                    <Button Content="Up" Click="PartySkillUp" HorizontalAlignment="Left" Height="21" Margin="10,110,0,0" VerticalAlignment="Top" Width="50"/>
+                                    <Button Content="Down" Click="PartySkillDown" HorizontalAlignment="Left" Height="21" Margin="10,137,0,0" VerticalAlignment="Top" Width="50"/>
+                                </Grid>
+                            </TabItem>
+                            <TabItem Header="Weapon Buff" HorizontalAlignment="Left" Height="21.6" VerticalAlignment="Top" Width="90" FontSize="12" FontWeight="Normal" FontStyle="Italic">
+                                <Grid Background="#FFE5E5E5">
+                                    <ListBox x:Name="secondbuff" PreviewMouseRightButtonDown="DeleteSecondBuff" HorizontalAlignment="Left" Height="90" Margin="69,27,0,0" VerticalAlignment="Top" Width="250" FontStyle="Italic"/>
+                                    <Button Content="Add" Click="AddSecondBuff" HorizontalAlignment="Left" Height="21" Margin="10,29.5,0,0" VerticalAlignment="Top" Width="50"/>
+                                    <ListBox x:Name="firstweapon" HorizontalAlignment="Left" Height="24" Margin="19,152,0,0" VerticalAlignment="Top" Width="300" FontStyle="Italic"/>
+                                    <ListBox x:Name="secondweapon" HorizontalAlignment="Left" Height="25" Margin="19,211,0,0" VerticalAlignment="Top" Width="300" FontStyle="Italic"/>
+                                    <Label Content="Second weapon buff list" HorizontalAlignment="Left" Height="25" Margin="69,2,0,0" VerticalAlignment="Top" Width="133"/>
+                                    <Button Content="Up" Click="BuffSecondUp" HorizontalAlignment="Left" Height="21" Margin="10,56,0,0" VerticalAlignment="Top" Width="50"/>
+                                    <Button Content="Down" Click="BuffSecondDown" HorizontalAlignment="Left" Height="21" Margin="10,82,0,0" VerticalAlignment="Top" Width="50"/>
+                                    <Label Content="First weapon" HorizontalAlignment="Left" Height="25" Margin="69,122,0,0" VerticalAlignment="Top" Width="133" RenderTransformOrigin="0.517,0.232"/>
+                                    <Label Content="Second weapon" HorizontalAlignment="Left" Height="25" Margin="69,181,0,0" VerticalAlignment="Top" Width="133" RenderTransformOrigin="0.517,0.232"/>
+                                </Grid>
+                            </TabItem>
+                            <TabItem Header="Ghost Walk" HorizontalAlignment="Left" Height="21.6" VerticalAlignment="Top" Width="80" FontStyle="Italic" FontWeight="Normal" FontSize="12">
+                                <Grid Background="#FFE5E5E5">
+                                    <ListBox x:Name="ghostwalk" MouseRightButtonDown="DeleteGhostWalk" HorizontalAlignment="Left" Height="24.5" PreviewMouseRightButtonDown="DeleteImbue" Margin="69,27,0,0" VerticalAlignment="Top" Width="250" FontStyle="Italic"/>
+                                    <Label Content="Ghost walk skill" HorizontalAlignment="Left" Height="25" Margin="69,2,0,0" VerticalAlignment="Top" Width="93" FontStyle="Italic"/>
+                                    <Button x:Name="addghostwalk" Content="Add" Click="AddGhostWalk" HorizontalAlignment="Left" Height="21" Margin="10,29.5,0,0" VerticalAlignment="Top" Width="50"/>
+                                    <CheckBox x:Name="useghostwalk" Click="GhostWalkCheck" Content="Use when distance between mob and character &gt;" HorizontalAlignment="Left" Margin="27,69,0,0" VerticalAlignment="Top" Width="287" FontStyle="Normal"/>
+                                    <TextBox x:Name="ghostwalkdistance" TextChanged="DistanceCheck" HorizontalAlignment="Left" Height="20" Margin="272,99,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="42" FontStyle="Normal" Text="40"/>
+                                </Grid>
+                            </TabItem>
+                        </TabControl>
+                        <ListView x:Name="skilllist" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler" HorizontalAlignment="Right" Height="309" VerticalAlignment="Top" Width="322" Margin="-3,5,333,-2.8" FontWeight="Normal" Foreground="#FF042271">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Level" Width="50" DisplayMemberBinding="{Binding Level}"/>
+                                    <GridViewColumn Header="Name" Width="210" DisplayMemberBinding="{Binding Name}"/>
+                                    <GridViewColumn Header="ID" Width="80" DisplayMemberBinding="{Binding ID}"/>
+                                    <GridViewColumn Header="Buff Type" Width="80" DisplayMemberBinding="{Binding Bufftype}"/>
+                                    <GridViewColumn Header="Buff Wait" Width="80" DisplayMemberBinding="{Binding Buffwait}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </GroupBox>
+            </TabItem>
+            <TabItem Header="Items" Height="22.4" Width="55.2" FontSize="13">
+                <Grid Background="White">
+                    <TabControl HorizontalAlignment="Left" Height="337" VerticalAlignment="Top" Width="665" Margin="0,0,-0.2,-0.2">
+                        <TabItem Header="Inventory" FontSize="12" FontStyle="Italic">
+                            <Grid Background="White">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="216*"/>
+                                    <ColumnDefinition Width="113*"/>
+                                </Grid.ColumnDefinitions>
+                                <GroupBox Header="Inventory" HorizontalAlignment="Left" Height="306" VerticalAlignment="Top" Width="434" FontStyle="Normal" FontWeight="Bold" Grid.ColumnSpan="2">
+                                    <Grid Background="White">
+                                        <ListView x:Name="inventory" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler2" HorizontalAlignment="Left" Height="259" Margin="-5,4,-5.2,0" VerticalAlignment="Top" Width="431" FontWeight="Normal">
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn Header="Slot" Width="36" DisplayMemberBinding="{Binding Slot}"/>
+                                                    <GridViewColumn Header="Quanlity" Width="60" DisplayMemberBinding="{Binding Quanlity}"/>
+                                                    <GridViewColumn Header="Name" Width="210" DisplayMemberBinding="{Binding Name}"/>
+                                                    <GridViewColumn Header="Level" Width="45" DisplayMemberBinding="{Binding Level}"/>
+                                                    <GridViewColumn Header="Durability" Width="70" DisplayMemberBinding="{Binding Durability}"/>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                        <Button Content="Set as First Weapon" Click="Selectfirstitem" HorizontalAlignment="Left" Height="20" Margin="-3,266,0,-2.8" VerticalAlignment="Top" Width="130" FontSize="12" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontWeight="Normal"/>
+                                        <Button Content="Set as Second Weapon" Click="Selectseconditem" HorizontalAlignment="Left" Height="20" Margin="132,266,0,-2.8" VerticalAlignment="Top" Width="150" FontSize="12" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontWeight="Normal"/>
+                                        <Button Content="Drop Selected Item" Click="Dropselect" HorizontalAlignment="Left" Height="20" Margin="290,266,-3.2,-2.8" VerticalAlignment="Top" Width="134" FontSize="12" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontWeight="Normal"/>
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox Header="Pet Inventory" HorizontalAlignment="Left" Height="306" VerticalAlignment="Top" Width="227" FontStyle="Normal" FontWeight="Bold" Margin="2,0,-2.6,0" Grid.Column="1">
+                                    <ListView HorizontalAlignment="Left" Height="282" Margin="-3,4,-2.6,-2.8" VerticalAlignment="Top" Width="220" FontWeight="Normal">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Header="Quanlity" Width="60"/>
+                                                <GridViewColumn Header="Name" Width="210"/>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </GroupBox>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Normal Filter" FontSize="12" FontStyle="Italic">
+                            <Grid Background="White">
+                                <ComboBox HorizontalAlignment="Left" Height="22" Margin="97,21,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal">
+                                    <ComboBoxItem Content="Just Pick"/>
+                                    <ComboBoxItem Content="Ignore"/>
+                                </ComboBox>
+                                <Label Content="Gold:" HorizontalAlignment="Left" Margin="30,19,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                <ComboBox HorizontalAlignment="Left" Height="22" Margin="97,48,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal">
+                                    <ComboBoxItem Content="Just Pick"/>
+                                    <ComboBoxItem Content="Store"/>
+                                    <ComboBoxItem Content="Sell"/>
+                                    <ComboBoxItem Content="Ignore"/>
+                                </ComboBox>
+                                <Label Content="Weapons:" HorizontalAlignment="Left" Margin="30,46,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                <Label Content="Armors:" HorizontalAlignment="Left" Margin="30,77,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                <Label Content="Accessorises:" HorizontalAlignment="Left" Margin="30,108,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                <Label Content="Arrows:" HorizontalAlignment="Left" Margin="30,139,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                <Label Content="Bolts:" HorizontalAlignment="Left" Margin="30,165,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                <ComboBox HorizontalAlignment="Left" Height="22" Margin="97,75,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal">
+                                    <ComboBoxItem Content="Just Pick"/>
+                                    <ComboBoxItem Content="Store"/>
+                                    <ComboBoxItem Content="Sell"/>
+                                    <ComboBoxItem Content="Ignore"/>
+                                </ComboBox>
+                                <Grid Background="White" Margin="0,0,0.4,0.4">
+                                    <ComboBox x:Name="gold_drop" HorizontalAlignment="Left" Height="22" Margin="110,21,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal" SelectedIndex="1">
+                                        <ComboBoxItem Content="Just Pick"/>
+                                        <ComboBoxItem Content="Ignore"/>
+                                    </ComboBox>
+                                    <Label Content="Gold:" HorizontalAlignment="Left" Margin="27,19,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                    <ComboBox x:Name="wep_drop" HorizontalAlignment="Left" Height="22" Margin="110,48,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal" SelectedIndex="3">
+                                        <ComboBoxItem Content="Just Pick"/>
+                                        <ComboBoxItem Content="Store"/>
+                                        <ComboBoxItem Content="Sell"/>
+                                        <ComboBoxItem Content="Ignore"/>
+                                    </ComboBox>
+                                    <Label Content="Weapons:" HorizontalAlignment="Left" Margin="27,47,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                    <Label Content="Armors:" HorizontalAlignment="Left" Margin="27,74,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                    <Label Content="Accessorises:" HorizontalAlignment="Left" Margin="27,101,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                    <Label Content="Arrows:" HorizontalAlignment="Left" Margin="27,127,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                    <Label Content="Bolts:" HorizontalAlignment="Left" Margin="27,155,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                    <ComboBox x:Name="armor_drop" HorizontalAlignment="Left" Height="22" Margin="110,75,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal" SelectedIndex="3">
+                                        <ComboBoxItem Content="Just Pick"/>
+                                        <ComboBoxItem Content="Store"/>
+                                        <ComboBoxItem Content="Sell"/>
+                                        <ComboBoxItem Content="Ignore"/>
+                                    </ComboBox>
+                                    <ComboBox x:Name="acc_drop" HorizontalAlignment="Left" Height="22" Margin="110,102,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal" SelectedIndex="3">
+                                        <ComboBoxItem Content="Just Pick"/>
+                                        <ComboBoxItem Content="Store"/>
+                                        <ComboBoxItem Content="Sell"/>
+                                        <ComboBoxItem Content="Ignore"/>
+                                    </ComboBox>
+                                    <ComboBox x:Name="arrow_drop" HorizontalAlignment="Left" Height="22" Margin="110,129,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal" SelectedIndex="3">
+                                        <ComboBoxItem Content="Just Pick"/>
+                                        <ComboBoxItem Content="Store"/>
+                                        <ComboBoxItem Content="Sell"/>
+                                        <ComboBoxItem Content="Ignore"/>
+                                    </ComboBox>
+                                    <ComboBox x:Name="bolt_drop" HorizontalAlignment="Left" Height="22" Margin="110,156,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal" SelectedIndex="3">
+                                        <ComboBoxItem Content="Just Pick"/>
+                                        <ComboBoxItem Content="Store"/>
+                                        <ComboBoxItem Content="Sell"/>
+                                        <ComboBoxItem Content="Ignore"/>
+                                    </ComboBox>
+                                    <ComboBox x:Name="return_drop" HorizontalAlignment="Left" Height="22" Margin="308,21,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal" SelectedIndex="3">
+                                        <ComboBoxItem Content="Just Pick"/>
+                                        <ComboBoxItem Content="Store"/>
+                                        <ComboBoxItem Content="Sell"/>
+                                        <ComboBoxItem Content="Ignore"/>
+                                    </ComboBox>
+                                    <Label Content="Return Scrolls:" HorizontalAlignment="Left" Margin="215,19,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                    <ComboBox x:Name="hp_drop" HorizontalAlignment="Left" Height="22" Margin="308,48,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal" SelectedIndex="3">
+                                        <ComboBoxItem Content="Just Pick"/>
+                                        <ComboBoxItem Content="Store"/>
+                                        <ComboBoxItem Content="Sell"/>
+                                        <ComboBoxItem Content="Ignore"/>
+                                    </ComboBox>
+                                    <Label Content="HP Potions:" HorizontalAlignment="Left" Margin="215,47,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                    <Label Content="MP Potions:" HorizontalAlignment="Left" Margin="215,74,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                    <Label Content="Vigor Potions:" HorizontalAlignment="Left" Margin="215,101,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                    <Label Content="Vigor Grains:" HorizontalAlignment="Left" Margin="215,127,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                    <Label Content="Universial Pills:" HorizontalAlignment="Left" Margin="215,155,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                    <ComboBox x:Name="mp_drop" HorizontalAlignment="Left" Height="22" Margin="308,75,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal" SelectedIndex="3">
+                                        <ComboBoxItem Content="Just Pick"/>
+                                        <ComboBoxItem Content="Store"/>
+                                        <ComboBoxItem Content="Sell"/>
+                                        <ComboBoxItem Content="Ignore"/>
+                                    </ComboBox>
+                                    <ComboBox x:Name="vigorp_drop" HorizontalAlignment="Left" Height="22" Margin="308,102,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal" SelectedIndex="3">
+                                        <ComboBoxItem Content="Just Pick"/>
+                                        <ComboBoxItem Content="Store"/>
+                                        <ComboBoxItem Content="Sell"/>
+                                        <ComboBoxItem Content="Ignore"/>
+                                    </ComboBox>
+                                    <ComboBox x:Name="vigorg_drop" HorizontalAlignment="Left" Height="22" Margin="308,129,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal" SelectedIndex="3">
+                                        <ComboBoxItem Content="Just Pick"/>
+                                        <ComboBoxItem Content="Store"/>
+                                        <ComboBoxItem Content="Sell"/>
+                                        <ComboBoxItem Content="Ignore"/>
+                                    </ComboBox>
+                                    <ComboBox x:Name="uni_drop" HorizontalAlignment="Left" Height="22" Margin="308,156,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal" SelectedIndex="3">
+                                        <ComboBoxItem Content="Just Pick"/>
+                                        <ComboBoxItem Content="Store"/>
+                                        <ComboBoxItem Content="Sell"/>
+                                        <ComboBoxItem Content="Ignore"/>
+                                    </ComboBox>
+                                    <ComboBox x:Name="materials_drop" HorizontalAlignment="Left" Height="22" Margin="528,21,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal" SelectedIndex="3">
+                                        <ComboBoxItem Content="Just Pick"/>
+                                        <ComboBoxItem Content="Store"/>
+                                        <ComboBoxItem Content="Sell"/>
+                                        <ComboBoxItem Content="Ignore"/>
+                                    </ComboBox>
+                                    <Label Content="Materials:" HorizontalAlignment="Left" Margin="413,19,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                    <ComboBox x:Name="tablets_drop" HorizontalAlignment="Left" Height="22" Margin="528,48,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal" SelectedIndex="3">
+                                        <ComboBoxItem Content="Just Pick"/>
+                                        <ComboBoxItem Content="Store"/>
+                                        <ComboBoxItem Content="Sell"/>
+                                        <ComboBoxItem Content="Ignore"/>
+                                    </ComboBox>
+                                    <Label Content="Tablets:" HorizontalAlignment="Left" Margin="413,47,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                    <Label Content="Weapon Elixers:" HorizontalAlignment="Left" Margin="413,74,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                    <Label Content="Protector Elixers:" HorizontalAlignment="Left" Margin="413,101,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                    <Label Content="Shield Elixers:" HorizontalAlignment="Left" Margin="413,127,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                    <Label Content="Accessorise Elixers:" HorizontalAlignment="Left" Margin="413,155,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.728,0.383" FontStyle="Normal"/>
+                                    <ComboBox x:Name="wepe_drop" HorizontalAlignment="Left" Height="22" Margin="528,75,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal" SelectedIndex="3">
+                                        <ComboBoxItem Content="Just Pick"/>
+                                        <ComboBoxItem Content="Store"/>
+                                        <ComboBoxItem Content="Sell"/>
+                                        <ComboBoxItem Content="Ignore"/>
+                                    </ComboBox>
+                                    <ComboBox x:Name="prote_drop" HorizontalAlignment="Left" Height="22" Margin="528,102,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal" SelectedIndex="3">
+                                        <ComboBoxItem Content="Just Pick"/>
+                                        <ComboBoxItem Content="Store"/>
+                                        <ComboBoxItem Content="Sell"/>
+                                        <ComboBoxItem Content="Ignore"/>
+                                    </ComboBox>
+                                    <ComboBox x:Name="shielde_drop" HorizontalAlignment="Left" Height="22" Margin="528,129,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal" SelectedIndex="3">
+                                        <ComboBoxItem Content="Just Pick"/>
+                                        <ComboBoxItem Content="Store"/>
+                                        <ComboBoxItem Content="Sell"/>
+                                        <ComboBoxItem Content="Ignore"/>
+                                    </ComboBox>
+                                    <ComboBox x:Name="acce_drop" HorizontalAlignment="Left" Height="22" Margin="528,156,0,0" VerticalAlignment="Top" Width="100" FontStyle="Normal" SelectedIndex="3">
+                                        <ComboBoxItem Content="Just Pick"/>
+                                        <ComboBoxItem Content="Store"/>
+                                        <ComboBoxItem Content="Sell"/>
+                                        <ComboBoxItem Content="Ignore"/>
+                                    </ComboBox>
+                                    <GroupBox Header="Picking Setting" HorizontalAlignment="Left" Height="112" Margin="0,194,0,0" VerticalAlignment="Top" Width="658" FontStyle="Normal" FontWeight="Bold">
+                                        <Grid Background="White">
+                                            <RadioButton x:Name="nopick" Content="Don't pick item" HorizontalAlignment="Left" Margin="20,14,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                                            <RadioButton x:Name="normalpick" Content="Pick items with normal filter" HorizontalAlignment="Left" Margin="20,39,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                                            <RadioButton x:Name="advancepick" Content="Pick items with advance filter" HorizontalAlignment="Left" Margin="20,64,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                                            <CheckBox x:Name="petpick" Content="Pick with pet" HorizontalAlignment="Left" Margin="281,16,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                                            <CheckBox x:Name="pickall" Content="Pick other players's items" HorizontalAlignment="Left" Margin="281,42,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                                        </Grid>
+                                    </GroupBox>
+                                </Grid>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="Advance Filter" HorizontalAlignment="Left" Height="21.6" VerticalAlignment="Top" Width="87" FontSize="12" FontStyle="Italic">
+                            <Grid Background="White">
+                                <GroupBox Header="Advance Filter" HorizontalAlignment="Left" Height="308" VerticalAlignment="Top" Width="434" FontWeight="Bold" FontStyle="Normal">
+                                    <ListView x:Name="advanceitem" GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler1" UseLayoutRounding="False" HorizontalAlignment="Left" Height="284" Margin="-3,4,-3.2,-2.4" VerticalAlignment="Top" Width="427" SelectionMode="Extended" FontWeight="Normal">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Header="Name" Width="245" DisplayMemberBinding="{Binding Name}"/>
+                                                <GridViewColumn Header="Level" Width="70" DisplayMemberBinding="{Binding Level}"/>
+                                                <GridViewColumn Header="Action" Width="90" DisplayMemberBinding="{Binding Action}"/>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </GroupBox>
+                                <TextBox x:Name="advanceitemnamesearch" HorizontalAlignment="Left" Height="20" Margin="434,9,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" FontStyle="Normal"/>
+                                <Button Content="Search" Click="namesearch" HorizontalAlignment="Left" Height="20" Margin="434,30.5,0,0" VerticalAlignment="Top" Width="80" FontSize="12" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontStyle="Normal"/>
+                                <TextBox x:Name="searchitembox" HorizontalAlignment="Left" Height="20" Margin="434,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="223" FontStyle="Normal"/>
+                                <Button Content="Search by level" Click="levelsearch" HorizontalAlignment="Left" Height="20" Margin="434,77,0,0" VerticalAlignment="Top" Width="110" FontSize="12" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontStyle="Normal"/>
+                                <Button Content="Search by action" Click="actionsearch" HorizontalAlignment="Left" Height="20" Margin="547,77,0,0" VerticalAlignment="Top" Width="110" FontSize="12" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontStyle="Normal"/>
+                                <TextBox x:Name="min" HorizontalAlignment="Left" Height="20" Margin="434,102,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" FontStyle="Normal"/>
+                                <Label Content="-" HorizontalAlignment="Left" Margin="489,99,0,0" VerticalAlignment="Top" FontStyle="Normal"/>
+                                <TextBox x:Name="max" HorizontalAlignment="Left" Height="20" Margin="508,102,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" FontStyle="Normal"/>
+                                <Button Content="Search by level range" Click="levelrangesearch" HorizontalAlignment="Left" Height="20" Margin="434,123.5,0,0" VerticalAlignment="Top" Width="150" FontSize="12" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontStyle="Normal"/>
+                                <Button Content="Ignore" Click="ignoreselect" HorizontalAlignment="Left" Height="25" Margin="434,279,0,0" VerticalAlignment="Top" Width="119" FontStyle="Normal" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                                <Button Content="Sell" Click="sellselect" HorizontalAlignment="Left" Height="25" Margin="434,249,0,0" VerticalAlignment="Top" Width="119" FontStyle="Normal" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                                <Button Content="Store" Click="storeselect" HorizontalAlignment="Left" Height="25" Margin="434,219,0,0" VerticalAlignment="Top" Width="119" FontStyle="Normal" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                                <Button Content="Just Pick" Click="pickselect" HorizontalAlignment="Left" Height="25" Margin="434,189,0,0" VerticalAlignment="Top" Width="119" FontStyle="Normal" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+                                <ComboBox x:Name="advanceitemselect" SelectionChanged="AdvanceListCat" HorizontalAlignment="Left" Height="23" Margin="434,155,0,0" VerticalAlignment="Top" Width="223" FontStyle="Normal" SelectedIndex="0">
+                                    <ComboBoxItem Content="Gold"/>
+                                    <ComboBoxItem Content="Weapons"/>
+                                    <ComboBoxItem Content="Armors"/>
+                                    <ComboBoxItem Content="Accessorises"/>
+                                    <ComboBoxItem Content="Elixirs"/>
+                                    <ComboBoxItem Content="Arrows/Bolts"/>
+                                    <ComboBoxItem Content="Return Scrolls"/>
+                                    <ComboBoxItem Content="Potions"/>
+                                    <ComboBoxItem Content="Tablets/Jades"/>
+                                    <ComboBoxItem Content="Materials"/>
+                                    <ComboBoxItem Content="Malls"/>
+                                    <ComboBoxItem Content="Quests"/>
+                                    <ComboBoxItem Content="All Items"/>
+                                </ComboBox>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Protection" Height="22.4" Width="76">
+                <Grid Background="White" RenderTransformOrigin="0.535,0.596">
+                    <GroupBox Header="Player" HorizontalAlignment="Left" Height="258" VerticalAlignment="Top" Width="265" FontWeight="Bold">
+                        <Grid Background="White" Margin="0,0,0,0.4">
+                            <CheckBox x:Name="hpuse" Content="Use HP pot when HP &lt;" HorizontalAlignment="Left" Margin="14,9,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <TextBox x:Name="hptext" TextChanged="hptextchange" HorizontalAlignment="Left" Height="18" Margin="197,7,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25" RenderTransformOrigin="0.538,-0.504" FontWeight="Normal" Text="50"/>
+                            <Label Content="%" HorizontalAlignment="Left" Margin="227,3,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <CheckBox x:Name="mpuse" Content="Use MP pot when MP &lt;" HorizontalAlignment="Left" Margin="14,35,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <TextBox x:Name="mptext" TextChanged="mptextchange" HorizontalAlignment="Left" Height="18" Margin="197,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25" RenderTransformOrigin="0.538,-0.504" FontWeight="Normal" Text="50"/>
+                            <Label Content="%" HorizontalAlignment="Left" Margin="227,29,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <CheckBox x:Name="vigorhpuse" Content="Use Vigor pot when HP &lt;" HorizontalAlignment="Left" Margin="14,61,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <TextBox x:Name="vigorhptext" TextChanged="vigorhptextchange" HorizontalAlignment="Left" Height="18" Margin="197,58,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25" RenderTransformOrigin="0.538,-0.504" FontWeight="Normal" Text="50"/>
+                            <Label Content="%" HorizontalAlignment="Left" Margin="227,55,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <CheckBox x:Name="vigormpuse" Content="Use Vigor pot when MP &lt;" HorizontalAlignment="Left" Margin="14,87,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <TextBox x:Name="vigormptext" TextChanged="vigormptextchange" HorizontalAlignment="Left" Height="18" Margin="197,85,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25" RenderTransformOrigin="0.538,-0.504" FontWeight="Normal" Text="50"/>
+                            <Label Content="%" HorizontalAlignment="Left" Margin="227,81,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <CheckBox x:Name="shpuse" Content="Use 25% HP pot when HP &lt;" HorizontalAlignment="Left" Margin="14,113,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <TextBox x:Name="shptext" TextChanged="shptextchange" HorizontalAlignment="Left" Height="18" Margin="197,110,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25" RenderTransformOrigin="0.538,-0.504" FontWeight="Normal" Text="50"/>
+                            <Label Content="%" HorizontalAlignment="Left" Margin="227,107,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <CheckBox x:Name="smpuse" Content="Use 25% MP pot when MP &lt;" HorizontalAlignment="Left" Margin="14,139,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <TextBox x:Name="smptext" TextChanged="smptextchange"  HorizontalAlignment="Left" Height="18" Margin="197,136,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25" RenderTransformOrigin="0.538,-0.504" FontWeight="Normal" Text="50"/>
+                            <Label Content="%" HorizontalAlignment="Left" Margin="227,133,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <CheckBox x:Name="skillhpuse" Content="Use skill when HP &lt;" HorizontalAlignment="Left" Margin="14,165,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <TextBox x:Name="skillhptext" TextChanged="skillhptextchange"  HorizontalAlignment="Left" Height="18" Margin="197,162,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25" RenderTransformOrigin="0.538,-0.504" FontWeight="Normal" Text="50"/>
+                            <Label Content="%" HorizontalAlignment="Left" Margin="227,159,0,0" VerticalAlignment="Top" FontWeight="Normal" RenderTransformOrigin="0.26,1.648"/>
+                            <ComboBox x:Name="healskill" HorizontalAlignment="Left" Height="23" Margin="14,185,0,0" VerticalAlignment="Top" Width="228" FontWeight="Normal" FontStyle="Italic" SelectedIndex="0"/>
+                            <CheckBox x:Name="uniuse" Content="Use universial pill when Bad status" HorizontalAlignment="Left" Margin="14,217,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Pet" HorizontalAlignment="Left" Height="79" Margin="0,258,-0.2,-0.2" VerticalAlignment="Top" Width="665" FontWeight="Bold">
+                        <Grid Background="White">
+                            <CheckBox x:Name="pethpuse" Content="Use HP when Attack pet's HP &lt;" HorizontalAlignment="Left" Margin="14,10,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <TextBox x:Name="pethptext" TextChanged="pethptextchange" HorizontalAlignment="Left" Height="18" Margin="224,8,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25" RenderTransformOrigin="0.538,-0.504" FontWeight="Normal" Text="50"/>
+                            <Label Content="%" HorizontalAlignment="Left" Margin="249,4,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <CheckBox x:Name="pethgpuse" Content="Use HGP when Attack pet's HGP &lt;" HorizontalAlignment="Left" Margin="14,36,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <TextBox x:Name="pethgptext" TextChanged="pethgptextchange" HorizontalAlignment="Left" Height="18" Margin="224,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25" RenderTransformOrigin="0.538,-0.504" FontWeight="Normal" Text="50"/>
+                            <Label Content="%" HorizontalAlignment="Left" Margin="249,30,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <CheckBox x:Name="horsehpuse" Content="Use HP when Horse's HP &lt;" HorizontalAlignment="Left" Margin="284,10,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <TextBox x:Name="horsehptext" TextChanged="horsehptextchange" HorizontalAlignment="Left" Height="18" Margin="455,8,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25" RenderTransformOrigin="0.538,-0.504" FontWeight="Normal" Text="50"/>
+                            <Label Content="%" HorizontalAlignment="Left" Margin="480,4,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <CheckBox x:Name="unipet" Content="Use Universial pills for pets" HorizontalAlignment="Left" Margin="284,36,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <CheckBox x:Name="unihorse" Content="Use Universial pills for Horse" HorizontalAlignment="Left" Margin="466,36,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Return to town when" HorizontalAlignment="Left" Height="258" Margin="265,0,0,0" VerticalAlignment="Top" Width="210" FontWeight="Bold">
+                        <Grid Background="White" Margin="0,0,-2.8,0.2">
+                            <CheckBox x:Name="dead" Content="Dead" HorizontalAlignment="Left" Margin="14,9,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <CheckBox x:Name="lowhp" Content="HP pots count &lt;" HorizontalAlignment="Left" Margin="14,35,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <TextBox x:Name="lowhptext" TextChanged="pethptextchange" HorizontalAlignment="Left" Height="18" Margin="137,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25" RenderTransformOrigin="0.538,-0.504" FontWeight="Normal" Text="5"/>
+                            <CheckBox x:Name="lowmp" Content="MP pots count &lt;" HorizontalAlignment="Left" Margin="14,61,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <CheckBox x:Name="lowarrow" Content="Arrows count &lt;" HorizontalAlignment="Left" Margin="14,87,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <CheckBox x:Name="lowbolt" Content="Bolts count &lt;" HorizontalAlignment="Left" Margin="14,113,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <CheckBox x:Name="inventoryfull" Content="Inventory full" HorizontalAlignment="Left" Margin="14,139,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <CheckBox x:Name="lowdurability" Content="Low weapon durability" HorizontalAlignment="Left" Margin="14,165,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <TextBox x:Name="lowmptext" TextChanged="pethptextchange" HorizontalAlignment="Left" Height="18" Margin="137,59,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25" RenderTransformOrigin="0.538,-0.504" FontWeight="Normal" Text="0"/>
+                            <TextBox x:Name="lowarrowtext" TextChanged="pethptextchange" HorizontalAlignment="Left" Height="18" Margin="137,86,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25" RenderTransformOrigin="0.538,-0.504" FontWeight="Normal" Text="0"/>
+                            <TextBox x:Name="lowbolttext" TextChanged="pethptextchange" HorizontalAlignment="Left" Height="18" Margin="137,112,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="25" RenderTransformOrigin="0.538,-0.504" FontWeight="Normal" Text="0"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Loop" Height="22.4" Width="55.2" FontSize="13">
+                <Grid Background="White">
+                    <GroupBox Header="Buy Setting" HorizontalAlignment="Left" Height="337" VerticalAlignment="Top" Width="387" Margin="0,0,0,-0.2" FontWeight="Bold" FontSize="12">
+                        <Grid Background="White">
+                            <Label Content="HP Potion:" HorizontalAlignment="Left" Margin="19,9,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="12"/>
+                            <ComboBox x:Name="hp_buy" HorizontalAlignment="Left" Height="22" Margin="124,11,0,0" VerticalAlignment="Top" Width="163" FontWeight="Normal" SelectedIndex="0">
+                                <ComboBoxItem Content="HP Recovery Herb"/>
+                                <ComboBoxItem Content="HP Recovery Potion (Small)"/>
+                                <ComboBoxItem Content="HP Recovery Potion (Medium)"/>
+                                <ComboBoxItem Content="HP Recovery Potion (Large)"/>
+                                <ComboBoxItem Content="HP Recovery Potion (X-Large)"/>
+                            </ComboBox>
+                            <TextBox x:Name="hp_count" HorizontalAlignment="Left" Height="20" Margin="304,12,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50" FontWeight="Normal"/>
+                            <Label Content="MP Potion:" HorizontalAlignment="Left" Margin="19,39,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="12"/>
+                            <ComboBox x:Name="mp_buy" HorizontalAlignment="Left" Height="22" Margin="124,41,0,0" VerticalAlignment="Top" Width="163" FontWeight="Normal" SelectedIndex="0">
+                                <ComboBoxItem Content="MP Recovery Herb"/>
+                                <ComboBoxItem Content="MP Recovery Potion (Small)"/>
+                                <ComboBoxItem Content="MP Recovery Potion (Medium)"/>
+                                <ComboBoxItem Content="MP Recovery Potion (Large)"/>
+                                <ComboBoxItem Content="MP Recovery Potion (X-Large)"/>
+                            </ComboBox>
+                            <TextBox x:Name="mp_count" HorizontalAlignment="Left" Height="20" Margin="304,42,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50" FontWeight="Normal"/>
+                            <Label Content="Universial Pill:" HorizontalAlignment="Left" Margin="19,69,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="12"/>
+                            <ComboBox x:Name="uni_buy" HorizontalAlignment="Left" Height="22" Margin="124,71,0,0" VerticalAlignment="Top" Width="163" FontWeight="Normal" SelectedIndex="0">
+                                <ComboBoxItem Content="Universal Pill (small)"/>
+                                <ComboBoxItem Content="Universal Pill (medium)"/>
+                                <ComboBoxItem Content="Universal Pill (large)"/>
+                                <ComboBoxItem Content="Special Universal Pill (small)"/>
+                                <ComboBoxItem Content="Special Universal Pill (medium)"/>
+                            </ComboBox>
+                            <TextBox x:Name="uni_count" HorizontalAlignment="Left" Height="20" Margin="304,72,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50" FontWeight="Normal"/>
+                            <Label Content="Pet HP Potion:" HorizontalAlignment="Left" Margin="19,99,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="12"/>
+                            <ComboBox x:Name="php_buy" HorizontalAlignment="Left" Height="22" Margin="124,101,0,0" VerticalAlignment="Top" Width="163" FontWeight="Normal" SelectedIndex="0">
+                                <ComboBoxItem Content="Recovery kit (small)"/>
+                                <ComboBoxItem Content="Recovery kit (large)"/>
+                                <ComboBoxItem Content="Recovery kit (x-large)"/>
+                            </ComboBox>
+                            <TextBox x:Name="php_count" HorizontalAlignment="Left" Height="20" Margin="304,102,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50" FontWeight="Normal"/>
+                            <Label Content="Speed Scrolls:" HorizontalAlignment="Left" Margin="19,129,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="12"/>
+                            <ComboBox x:Name="speed_buy" HorizontalAlignment="Left" Height="22" Margin="124,131,0,0" VerticalAlignment="Top" Width="163" FontWeight="Normal" SelectedIndex="0">
+                                <ComboBoxItem Content="Drug of wind"/>
+                                <ComboBoxItem Content="Drug of typoon"/>
+                            </ComboBox>
+                            <TextBox x:Name="speed_count" HorizontalAlignment="Left" Height="20" Margin="304,132,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50" FontWeight="Normal"/>
+                            <Label Content="Return Scrolls:" HorizontalAlignment="Left" Margin="19,159,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="12"/>
+                            <ComboBox x:Name="return_buy" HorizontalAlignment="Left" Height="22" Margin="124,161,0,0" VerticalAlignment="Top" Width="163" FontWeight="Normal" SelectedIndex="0">
+                                <ComboBoxItem Content="Return Scroll"/>
+                                <ComboBoxItem Content="Special Return Scroll"/>
+                            </ComboBox>
+                            <TextBox x:Name="return_count" HorizontalAlignment="Left" Height="20" Margin="304,162,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50" FontWeight="Normal"/>
+                            <Label Content="Horse:" HorizontalAlignment="Left" Margin="19,189,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="12"/>
+                            <ComboBox x:Name="horse_buy" HorizontalAlignment="Left" Height="22" Margin="124,191,0,0" VerticalAlignment="Top" Width="162" FontWeight="Normal" SelectedIndex="0">
+                                <ComboBoxItem Content="Red Horse"/>
+                                <ComboBoxItem Content="Shadow Horse"/>
+                                <ComboBoxItem Content="Dragon Horse"/>
+                                <ComboBoxItem Content="Ironclad Horse"/>
+                            </ComboBox>
+                            <TextBox x:Name="horse_count" HorizontalAlignment="Left" Height="20" Margin="304,192,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50" FontWeight="Normal"/>
+                            <Label Content="HGP Potion:" HorizontalAlignment="Left" Margin="19,255,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="12"/>
+                            <TextBox x:Name="hgp_count" HorizontalAlignment="Left" Height="20" Margin="98,259,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50" FontWeight="Normal"/>
+                            <Label Content="Arrow:" HorizontalAlignment="Left" Margin="155,255,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="12" RenderTransformOrigin="0.42,0.495"/>
+                            <TextBox x:Name="arrows_count" HorizontalAlignment="Left" Height="20" Margin="205,259,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50" FontWeight="Normal"/>
+                            <Label Content="Bolt:" HorizontalAlignment="Left" Margin="265,255,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="12"/>
+                            <TextBox x:Name="bolts_count" HorizontalAlignment="Left" Height="20" Margin="304,259,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50" FontWeight="Normal"/>
+                            <Label Content="Pet status heal:" HorizontalAlignment="Left" Margin="19,219,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="12"/>
+                            <ComboBox x:Name="pet_status_buy" HorizontalAlignment="Left" Height="22" Margin="124,221,0,0" VerticalAlignment="Top" Width="163" FontWeight="Normal" SelectedIndex="0">
+                                <ComboBoxItem Content="Abnormal state recovery potion (small)"/>
+                                <ComboBoxItem Content="Abnormal state recovery potion (medium)"/>
+                            </ComboBox>
+                            <TextBox x:Name="pet_status_count" HorizontalAlignment="Left" Height="20" Margin="304,222,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50" FontWeight="Normal"/>
+                            <Label Content="Grass of revival:" HorizontalAlignment="Left" Margin="19,285,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="12"/>
+                            <TextBox x:Name="revive_count" HorizontalAlignment="Left" Height="20" Margin="117,289,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="50" FontWeight="Normal"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Loop setting" HorizontalAlignment="Left" Margin="387,0,-0.2,0" VerticalAlignment="Top" Height="79" Width="278" FontSize="12" FontWeight="Bold">
+                        <Grid Background="White" Height="74" Margin="0,0,-0.4,-4.4" VerticalAlignment="Top">
+                            <CheckBox x:Name="loop_off" Content="Turn off loop script" HorizontalAlignment="Left" Margin="14,9,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <CheckBox x:Name="repairall" Content="Repair all items" HorizontalAlignment="Left" Margin="14,33,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Walkscripts" HorizontalAlignment="Left" Height="258" Margin="387,79,-0.2,-0.2" VerticalAlignment="Top" Width="278" FontSize="12" FontWeight="Bold">
+                        <Grid Background="White">
+                            <ListBox x:Name="walkscript" HorizontalAlignment="Left" Height="180" Margin="4,55,0,0" VerticalAlignment="Top" Width="193" FontWeight="Normal"/>
+                            <TextBox x:Name="walkscriptpath" IsReadOnly="True" HorizontalAlignment="Left" Height="20" Margin="4,5,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="258" RenderTransformOrigin="0.419,-3.3" FontWeight="Normal" Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}"/>
+                            <Button Content="Select" Click="Selectscript" HorizontalAlignment="Left" Height="22" Margin="4,28,0,0" VerticalAlignment="Top" Width="258" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontWeight="Normal"/>
+                            <Button x:Name="scriptclear" Click="Clearrecord" Content="Clear" HorizontalAlignment="Left" Height="22" Margin="202,109,0,0" VerticalAlignment="Top" Width="60" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontWeight="Normal"/>
+                            <Button x:Name="scriptrecord" Click="Recordscript" Content="Record" HorizontalAlignment="Left" Height="22" Margin="202,55,0,0" VerticalAlignment="Top" Width="60" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontWeight="Normal"/>
+                            <Button x:Name="scriptstop" Click="Stoprecord" Content="Stop" HorizontalAlignment="Left" Height="22" Margin="202,82,0,0" VerticalAlignment="Top" Width="60" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontWeight="Normal"/>
+                            <Button x:Name="scriptsave" Click="Saverecord" Content="Save" HorizontalAlignment="Left" Height="22" Margin="202,213,0,0" VerticalAlignment="Top" Width="60" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontWeight="Normal" RenderTransformOrigin="0.442,1.612"/>
+                        </Grid>
+                    </GroupBox>
+
+                </Grid>
+            </TabItem>
+            <TabItem Header="Party" Height="22.4" Width="55.2" FontSize="13">
+                <Grid Background="White">
+                    <GroupBox Header="Create Party" Height="227" VerticalAlignment="Bottom" FontWeight="Bold" Margin="0,0,132.8,109.8">
+                        <Grid Background="White" Height="197" VerticalAlignment="Top" Margin="0,0,-3,-0.2">
+                            <Label Content="Party Name:" HorizontalAlignment="Left" Height="27" Margin="16,10,0,0" VerticalAlignment="Top" Width="78" FontWeight="Normal" FontSize="12"/>
+                            <TextBox x:Name="partyname" HorizontalAlignment="Left" Height="20" Margin="119,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="391" FontWeight="Normal" FontSize="12"/>
+                            <Label Content="Minimum Level:" HorizontalAlignment="Left" Height="27" Margin="16,37,0,0" VerticalAlignment="Top" Width="94" FontWeight="Normal" FontSize="12"/>
+                            <TextBox x:Name="minlevel" HorizontalAlignment="Left" Height="20" Margin="119,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" FontWeight="Normal" FontSize="12"/>
+                            <Label Content="Maximum Level:" HorizontalAlignment="Left" Height="27" Margin="206,37,0,0" VerticalAlignment="Top" Width="94" FontWeight="Normal" FontSize="12" RenderTransformOrigin="0.178,0.322"/>
+                            <TextBox x:Name="maxlevel" HorizontalAlignment="Left" Height="20" Margin="309,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" FontWeight="Normal" FontSize="12"/>
+                            <GroupBox Header="Party Setting" HorizontalAlignment="Left" Margin="16,69,0,57" Width="360" FontSize="12" FontWeight="Normal" FontStyle="Italic"/>
+                            <StackPanel HorizontalAlignment="Left" Height="46" Margin="21,87,0,0" VerticalAlignment="Top" Width="148">
+                                <RadioButton x:Name="itemdis" Margin="10,5,-32,-2" FontSize="12" Content="Items Distribution" FontWeight="Normal"/>
+                                <RadioButton x:Name="noitemdis" Margin="10,7,-32,10" FontSize="12" Content="No Items Distribution" FontWeight="Normal" Height="20"/>
+                            </StackPanel>
+                            <StackPanel HorizontalAlignment="Left" Height="46" Margin="206,87,0,0" VerticalAlignment="Top" Width="148">
+                                <RadioButton x:Name="expdis" Margin="10,5,-32,-2" FontSize="12" Content="EXP Distribution" FontWeight="Normal"/>
+                                <RadioButton x:Name="noexpdis" Margin="10,7,-32,10" FontSize="12" Content="No EXP Distribution" FontWeight="Normal" Height="20"/>
+                            </StackPanel>
+                            <CheckBox x:Name="allowinvite" Content="Allow other players to invite" HorizontalAlignment="Left" Margin="21,151,0,0" VerticalAlignment="Top" FontSize="12" FontWeight="Normal"/>
+                            <CheckBox x:Name="autoparty" Content="Auto Create Party" Checked="PartyCheck" HorizontalAlignment="Left" Margin="21,174,0,0" VerticalAlignment="Top" FontSize="12" FontWeight="Normal"/>
+                            <CheckBox x:Name="allowparty" Content="Accept party join request" HorizontalAlignment="Left" Margin="251,151,0,0" VerticalAlignment="Top" FontSize="12" FontWeight="Normal"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Client Manager" Height="22.4" Width="108" FontSize="13">
+                <Grid Background="White" Margin="0,0,-0.2,-0.2">
+                    <GroupBox Header="Client Manager" HorizontalAlignment="Left" Height="337" Margin="0,0,0,-0.2" VerticalAlignment="Top" Width="394" FontSize="12" FontWeight="Bold">
+                        <Grid Background="White">
+                            <Button Content="Refresh" Click="Getprocess" HorizontalAlignment="Left" Height="23" Margin="284,10,0,0" VerticalAlignment="Top" Width="90" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontWeight="Normal"/>
+                            <Button Content="Hide" Click="Hideprocess" HorizontalAlignment="Left" Height="23" Margin="284,73,0,0" VerticalAlignment="Top" Width="90" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontWeight="Normal"/>
+                            <Button Content="Show" Click="Showprocess" HorizontalAlignment="Left" Height="23" Margin="284,105,0,0" VerticalAlignment="Top" Width="90" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontWeight="Normal"/>
+                            <Button Content="Rename" Click="Renameprocess" HorizontalAlignment="Left" Height="23" Margin="284,270,0,0" VerticalAlignment="Top" Width="90" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontWeight="Normal"/>
+                            <Button Content="Kill" Click="Killprocess" HorizontalAlignment="Left" Height="23" Margin="284,180,0,0" VerticalAlignment="Top" Width="90" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontWeight="Normal" RenderTransformOrigin="0.456,0.33"/>
+                            <TextBox x:Name="processname" HorizontalAlignment="Left" Height="20" Margin="6,240,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="368" FontWeight="Normal"/>
+                            <ListBox x:Name="processlist" HorizontalAlignment="Left" Height="221" Margin="6,10,0,0" VerticalAlignment="Top" Width="265" FontWeight="Normal"/>
+                            <Button Content="Show/ Hide Training Bar" Click="Trainingbar" HorizontalAlignment="Left" Height="23" Margin="6,281,0,0" VerticalAlignment="Top" Width="235" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" FontWeight="Normal"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Bot Control" HorizontalAlignment="Left" Height="337" Margin="397,0,0,0" VerticalAlignment="Top" Width="268" FontSize="12" FontWeight="Bold">
+                        <Grid Background="White">
+                            <CheckBox x:Name="closeclient" Click="Checkcloseclient" Content="Close Client after:" HorizontalAlignment="Left" Margin="13,14,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                            <TextBox x:Name="timeclose" TextChanged="TimeCheck" HorizontalAlignment="Left" Height="20" Margin="137,12,0,0" TextWrapping="Wrap" Text="180" VerticalAlignment="Top" Width="42" FontWeight="Normal"/>
+                            <Label Content="mins" HorizontalAlignment="Left" Margin="184,9,0,0" VerticalAlignment="Top" FontWeight="Normal"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Button Content="Start SRO Client" Click="StartSRO_Click" HorizontalAlignment="Left" Height="34" Margin="0.2,373,0,0" VerticalAlignment="Top" Width="125" RenderTransformOrigin="0.509,1" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.Column="1" FontSize="13" AllowDrop="True"/>
+        <Button Content="Select SRO Path" Click="SelectSRO_Click" HorizontalAlignment="Left" Height="34" Margin="130.2,373,0,0" VerticalAlignment="Top" Width="125" RenderTransformOrigin="0.509,1" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.Column="1" FontSize="13"/>
+        <Button Content="Read Configs" Click="Loadconfig" HorizontalAlignment="Left" Height="34" Margin="270.2,373,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.509,1" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}" Grid.Column="1" Grid.ColumnSpan="2" FontSize="13"/>
+        <Button Content="Save Configs" Click="Saveconfig" HorizontalAlignment="Left" Height="34" Margin="39.2,373,0,0" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.509,1" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.MenuBrushKey}}" Grid.Column="2" FontSize="13"/>
+        <Button x:Name="startbot" Content="Start Bot" Click="BotCheck" HorizontalAlignment="Left" Height="34" Margin="174.2,373,0,0" VerticalAlignment="Top" Width="160" RenderTransformOrigin="0.509,1" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.Column="2" FontSize="13"/>
+        <GroupBox Grid.Column="3" Header="Position" HorizontalAlignment="Left" Height="61" Margin="5.8,347,0,0" VerticalAlignment="Top" Width="249" FontWeight="Bold" FontSize="14">
+            <Grid HorizontalAlignment="Left" Height="52" Margin="0,5,-3,-21.8" VerticalAlignment="Top" Width="239">
+                <Label Content="X:" HorizontalAlignment="Left" Margin="11,-2,0,24" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <Label Content="Y:" HorizontalAlignment="Left" Margin="117,-2,0,24" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30"/>
+                <Label x:Name="xlabel" Content="0" HorizontalAlignment="Left" Margin="37,-2,0,24" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30" RenderTransformOrigin="0.734,0.589"/>
+                <Label x:Name="ylabel" Content="0" HorizontalAlignment="Left" Margin="143,-2,0,24" VerticalAlignment="Center" FontSize="13" FontWeight="Normal" Height="30" RenderTransformOrigin="0.734,0.589"/>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>

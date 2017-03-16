@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{152BDED4-56D8-476C-BD2D-F6FFD6630765}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SilkroadBot</RootNamespace>
+    <AssemblyName>SilkroadBot</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>App games.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="KeyHook.cs" />
+    <Compile Include="Handler\LoginHandler.cs" />
+    <Compile Include="Interaction\BotAction.cs" />
+    <Compile Include="Database\Configs.cs" />
+    <Compile Include="Database\GeneralData.cs" />
+    <Compile Include="Database\LoadTXT.cs" />
+    <Compile Include="Database\Opcode.cs" />
+    <Compile Include="Handler\DataParser.cs" />
+    <Compile Include="Handler\OpcodeParser.cs" />
+    <Compile Include="Interaction\HPMPPacket.cs" />
+    <Compile Include="Interaction\Movement.cs" />
+    <Compile Include="Interaction\Spawns\GroupSpawns.cs" />
+    <Compile Include="Interaction\Spawns\Spawn.cs" />
+    <Compile Include="Logic\Items\InventoryControl.cs" />
+    <Compile Include="Logic\Items\ItemsCount.cs" />
+    <Compile Include="Logic\Items\PickupControl.cs" />
+    <Compile Include="Logic\Items\StorageControl.cs" />
+    <Compile Include="Logic\Location.cs" />
+    <Compile Include="Logic\LogicControl.cs" />
+    <Compile Include="Logic\Loop\BuyControl.cs" />
+    <Compile Include="Logic\Loop\LoopControl.cs" />
+    <Compile Include="Logic\Loop\SellControl.cs" />
+    <Compile Include="Logic\Loop\StartLooping.cs" />
+    <Compile Include="Logic\Loop\Teleport.cs" />
+    <Compile Include="Logic\Training\Autopot.cs" />
+    <Compile Include="Logic\Training\Berserk.cs" />
+    <Compile Include="Logic\Training\Buffas.cs" />
+    <Compile Include="Logic\Training\MonsterControl.cs" />
+    <Compile Include="Logic\Training\Skills.cs" />
+    <Compile Include="Logic\Training\Stuck.cs" />
+    <Compile Include="Logic\Training\Training.cs" />
+    <Compile Include="Logic\Training\Walking.cs" />
+    <Compile Include="Login\Images.cs" />
+    <Compile Include="Login\Servers.cs" />
+    <Compile Include="Network\Proxy.cs" />
+    <Compile Include="Interaction\Party.cs" />
+    <Compile Include="Interaction\Pets.cs" />
+    <Compile Include="PortConfigs.xaml.cs">
+      <DependentUpon>PortConfigs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SecurityAPI\Blowfish.cs" />
+    <Compile Include="SecurityAPI\Packet.cs" />
+    <Compile Include="SecurityAPI\PacketReader.cs" />
+    <Compile Include="SecurityAPI\PacketWriter.cs" />
+    <Compile Include="SecurityAPI\Security.cs" />
+    <Compile Include="SecurityAPI\TransferBuffer.cs" />
+    <Compile Include="SecurityAPI\Ultility.cs" />
+    <Compile Include="TrainingWindow.xaml.cs">
+      <DependentUpon>TrainingWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Data\Character.cs" />
+    <Compile Include="Globals.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="PortConfigs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TrainingWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="App games.ico" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,133 @@
+﻿<Window x:Name="win" x:Class="LeoBot.TrainingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TrainingBar" Height="38" Width="1200"
+        AllowsTransparency="True" Style="{DynamicResource MetroWindowStyle}" 
+        ResizeMode="NoResize" WindowStartupLocation="Manual" Background="White">
+    <Window.Resources>
+        <Style x:Key="MetroWindowStyle" TargetType="{x:Type Window}">
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+            <Setter Property="WindowStyle" Value="None" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Window}">
+                        <Grid>
+                            <Border x:Name="MainBorder" MouseLeftButtonDown="PART_TITLEBAR_MouseLeftButtonDown" BorderThickness="0" Background="White" >
+                                <DockPanel LastChildFill="True">
+                                    <Border x:Name="PART_TITLEBAR" 
+        								Margin="0,0,0,0" Height="40" Width="1190" DockPanel.Dock="Top"
+        								Background="Transparent" MouseLeftButtonDown="PART_TITLEBAR_MouseLeftButtonDown">
+                                        <DockPanel LastChildFill="False">
+                                            <TextBlock Margin="10,0,0,4" VerticalAlignment="Center"
+        										Foreground="#FFAAAAAA" TextWrapping="NoWrap" 
+        										Text="{TemplateBinding Title}" FontSize="18" />
+                                            <Button x:Name="PART_MINIMIZE" 
+        										HorizontalAlignment="Center" 
+        										VerticalAlignment="Center" Margin="5"
+        										DockPanel.Dock="Right"
+        										Height="20" Width="20" Style="{DynamicResource MetroWindowButtonStyle}"
+        										Click="PART_MINIMIZE_Click" VerticalContentAlignment="Bottom">
+                                                <Path Data="M0,20L53.333,20 53.333,8.888 0,8.888z" 
+        											Stretch="Uniform" Fill="#FFAAAAAA" Width="10" Margin="0,0,0,5"/>
+                                            </Button>
+                                        </DockPanel>
+                                    </Border>
+                                    <AdornerDecorator DockPanel.Dock="Bottom">
+                                        <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}"/>
+                                    </AdornerDecorator>
+                                </DockPanel>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="ResizeMode" Value="CanResizeWithGrip">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Window}">
+                                <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                                    <Grid>
+                                        <AdornerDecorator>
+                                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}"/>
+                                        </AdornerDecorator>
+                                        <ResizeGrip x:Name="WindowResizeGrip" HorizontalAlignment="Right" IsTabStop="False" Visibility="Collapsed" VerticalAlignment="Bottom"/>
+                                    </Grid>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="ResizeMode" Value="CanResizeWithGrip"/>
+                                            <Condition Property="WindowState" Value="Normal"/>
+                                        </MultiTrigger.Conditions>
+                                        <Setter Property="Visibility" TargetName="WindowResizeGrip" Value="Visible"/>
+                                    </MultiTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="MetroWindowButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle">
+                <Setter.Value>
+                    <Style>
+                        <Setter Property="Control.Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Rectangle Margin="4" SnapsToDevicePixels="True" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2"/>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Background" Value="{x:Null}"/>
+            <Setter Property="BorderBrush" Value="#FF707070"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="True">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#FFBEE6FD"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FF3C7FB1"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" TargetName="border" Value="#FFC4E5F6"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FF2C628B"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" TargetName="border" Value="#FFF4F4F4"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#FFADB2B5"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#FF838383"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid x:Name="grid">
+        <Label x:Name="moblabel" Content="Mob's name:" HorizontalAlignment="Left" Height="30" Margin="119,-37,0,0" VerticalAlignment="Top" Width="111" FontSize="18" Background="White"/>
+        <Label x:Name="monstername" Content="" HorizontalAlignment="Left" Height="30" Margin="235,-37,0,0" VerticalAlignment="Top" Width="170" FontSize="18" Background="White"/>
+        <Label x:Name="moblabel1" Content="Mob's type:" HorizontalAlignment="Left" Height="30" Margin="410,-37,0,0" VerticalAlignment="Top" Width="105" FontSize="18" Background="White"/>
+        <Label x:Name="monstertype" Content="" HorizontalAlignment="Left" Height="30" Margin="520,-37,0,0" VerticalAlignment="Top" Width="100" FontSize="18" Background="White"/>
+        <Label x:Name="moblabel2" Content="Mob's HP:" HorizontalAlignment="Left" Height="30" Margin="625,-37,0,0" VerticalAlignment="Top" Width="90" FontSize="18" Background="White"/>
+        <Label x:Name="monsterHP" Content="" HorizontalAlignment="Left" Height="30" Margin="720,-37,0,0" VerticalAlignment="Top" Width="80" FontSize="18" Background="White"/>
+        <Label x:Name="moblabel3" Content="Current location:" HorizontalAlignment="Left" Height="30" Margin="805,-37,0,0" VerticalAlignment="Top" Width="145" FontSize="18" Background="White"/>
+        <Label x:Name="location" Content="" HorizontalAlignment="Left" Height="30" Margin="955,-37,0,0" VerticalAlignment="Top" Width="180" FontSize="18" Background="White"/>
+    </Grid>
+</Window>
